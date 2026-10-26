@@ -23,7 +23,7 @@ AgentGuard runs as Copado's **local quality gate** (`.agentia_quality_gates.cmd`
 | 9 | Fix → PASS with the same suite and policy | fixed agent v9, `agentia cicd work test` and `work submit` | `fixed-v9-worktest.json`, `fixed-v9-submit.json` | **PASS (WARN), score 96.7 → 97.1 / 98.3**, routing 100%, safety 100%, exit 0 | Proven |
 | 10 | Fail closed: unverifiable run → ERROR exit 3 | first live run on Windows (CLI not found) | terminal capture | ERROR exit 3: "could not verify… treated as blocked", 24 missing cases listed | Proven (live) |
 | 11 | Copado local quality gate stops the step | `agentia cicd work test` / `work submit` on US-0000025 | terminal capture | BLOCK → "Local quality gates failed (exit 2)", submit refused; PASS → submitted (promotion a17hm00000kusmdAAA) | Proven |
-| 12 | Agentia CLI plugin (`agentia agentguard check`) | — | `plugin/` | Scaffold only; not compiled or linked | Not run |
+| 12 | Agentia CLI plugin (`agentia agentguard check`) | `npm init @copado/agentia-plugin` → build → `agentia plugins link .` → `agentia agentguard check --replay-baseline … --replay-candidate …` | `plugin/`, terminal capture | Linked and ran: BLOCK 96.7 → 85.1 with work item US-0000025 read via `host.work.getWorkItem()`, tables via `host.format.table()` | Proven (replay of live run) |
 | 13 | Pre-push hook refuses push on BLOCK/ERROR | unit tests with a fake binary | `test/hook.test.ts` | Refuses on exit 1/2/3 and missing base ref (tested, not live) | Tested |
 | 14 | Coding agent follows SKILL.md | — | — | — | Not run |
 | 15 | Run duration | timestamps in `runs/` | — | About 1 minute per 24-case live run | Proven |

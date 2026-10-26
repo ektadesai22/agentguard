@@ -210,6 +210,9 @@ explain BLOCK/ERROR and propose a fix, and never to weaken the policy or delete 
 
 ## Evidence
 
+Verified: the Agentia CLI plugin builds with the official scaffold (`npm init @copado/agentia-plugin`), links with `agentia plugins link .` and runs as `agentia agentguard check`, reading the active work item (US-0000025).
+
+
 Live runs on 25–26 Oct 2026 (Agentforce Developer org, agent built in the new Agentforce Builder,
 Copado Playground user story US-0000025). Full log: [`docs/EVIDENCE.md`](docs/EVIDENCE.md); raw Salesforce
 result files and HTML reports: [`runs/live-demo/`](runs/live-demo/). In the live demo AgentGuard ran as
