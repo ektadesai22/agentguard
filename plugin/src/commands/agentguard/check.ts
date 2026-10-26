@@ -7,6 +7,7 @@
  * endpoint and receives no credentials. Exit codes: 0 PASS/WARN, 2 BLOCK, 3 ERROR (fail closed).
  */
 import {existsSync} from 'node:fs'
+import {relative} from 'node:path'
 import {AgentiaCommand, getAgentiaHost} from '@copado/agentia-plugin-sdk'
 import {Flags} from '@oclif/core'
 import {check, exitCodeFor, loadConfig, RecordedBaselineRunner, ReplayRunner, SfRunner} from 'agentguard'
@@ -80,11 +81,11 @@ export default class AgentguardCheck extends AgentiaCommand {
           ),
         )
         for (const line of out.explanation) this.log(`  • ${line}`)
-        this.log(`Report: ${out.reportDir}/report.html`)
+        this.log(`Report: ${relative(process.cwd(), out.reportDir) || '.'}/report.html`)
       })
 
       process.exitCode = exitCodeFor(d.status)
-      return {status: d.status, workItem, mode: out.mode, reasons: d.reasons, baseline: d.diff.baseline, candidate: d.diff.candidate, report: `${out.reportDir}/report.html`}
+      return {status: d.status, workItem, mode: out.mode, reasons: d.reasons, baseline: d.diff.baseline, candidate: d.diff.candidate, report: `${relative(process.cwd(), out.reportDir) || '.'}/report.html`}
     } catch (error) {
       // Fail closed: anything unexpected is ERROR (exit 3), never a pass.
       const message = error instanceof Error ? error.message : String(error)
