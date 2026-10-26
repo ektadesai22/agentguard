@@ -1,0 +1,54 @@
+#!/usr/bin/env sh
+# AgentGuard pre-push hook (fail closed).
+# Runs the behavioural gate when Agentforce metadata changed. Only exit code 0 (PASS/WARN)
+# lets the push through; BLOCK (2), ERROR (3) and any other failure refuse the push.
+# Install: `agentguard init`, or copy to .git/hooks/pre-push and chmod +x.
+# Base ref: AGENTGUARD_BASE (default origin/main).
+
+REMOTE_REF=${AGENTGUARD_BASE:-origin/main}
+AGENT_PATHS='genAi(Plugins|Functions|PromptTemplates|PlannerBundles)/|(^|/)bots/|aiAuthoringBundles/|aiTestingDefinitions/'
+
+REPO=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ -z "$REPO" ]; then
+  echo "AgentGuard ERROR: not inside a git work tree. Push refused." >&2
+  exit 1
+fi
+cd "$REPO" || exit 1
+
+if ! git rev-parse --verify --quiet "$REMOTE_REF" >/dev/null 2>&1; then
+  echo "AgentGuard ERROR: base ref '$REMOTE_REF' not found. Run 'git fetch' or set AGENTGUARD_BASE. Push refused." >&2
+  exit 1
+fi
+
+if ! DIFF=$(git diff --name-only "$REMOTE_REF"...HEAD); then
+  echo "AgentGuard ERROR: 'git diff $REMOTE_REF...HEAD' failed, cannot tell what changed. Push refused." >&2
+  exit 1
+fi
+
+CHANGED=$(printf '%s\n' "$DIFF" | grep -E "$AGENT_PATHS")
+if [ -z "$CHANGED" ]; then
+  exit 0
+fi
+
+echo "AgentGuard: agent metadata changed, running behavioural gate..."
+# Use the project's own installed binary, never a package resolved from the network.
+if [ -f "$REPO/node_modules/.bin/agentguard" ]; then
+  node "$REPO/node_modules/.bin/agentguard" check --base "$REMOTE_REF"
+else
+  npx --no-install agentguard check --base "$REMOTE_REF"
+fi
+STATUS=$?
+
+case $STATUS in
+  0)
+    exit 0
+    ;;
+  2)
+    echo "AgentGuard BLOCK: behaviour regressed. Push refused. See .agentguard/report/report.html" >&2
+    exit 1
+    ;;
+  *)
+    echo "AgentGuard ERROR (exit $STATUS): the change could not be verified. Push refused. See .agentguard/report/ and the output above." >&2
+    exit 1
+    ;;
+esac

@@ -1,0 +1,121 @@
+{
+  "mode": "replay",
+  "note": "Replay of saved results — not a new live run.",
+  "runner": "agentforce-studio",
+  "rawFiles": {
+    "baseline": "../agentguard/runs/live-demo/baseline-v6.json",
+    "candidate": "../agentguard/runs/live-demo/fixed-v9-worktest.json"
+  },
+  "impact": {
+    "changed": [
+      {
+        "path": "force-app/main/default/aiAuthoringBundles/Order_Concierge/Order_Concierge.agent",
+        "status": "A",
+        "metadataType": "AiAuthoringBundle",
+        "apiName": "Order_Concierge"
+      },
+      {
+        "path": "force-app/main/default/aiAuthoringBundles/Order_Concierge/Order_Concierge.bundle-meta.xml",
+        "status": "A",
+        "metadataType": "AiAuthoringBundle",
+        "apiName": "Order_Concierge"
+      },
+      {
+        "path": "force-app/main/default/aiAuthoringBundles/Order_Concierge_1/Order_Concierge_1.agent",
+        "status": "A",
+        "metadataType": "AiAuthoringBundle",
+        "apiName": "Order_Concierge_1"
+      },
+      {
+        "path": "force-app/main/default/aiAuthoringBundles/Order_Concierge_1/Order_Concierge_1.bundle-meta.xml",
+        "status": "A",
+        "metadataType": "AiAuthoringBundle",
+        "apiName": "Order_Concierge_1"
+      }
+    ],
+    "impactedTopics": [],
+    "impactedActions": [],
+    "fullRun": true
+  },
+  "decision": {
+    "status": "WARN",
+    "reasons": [
+      {
+        "rule": "min-abs",
+        "status": "PASS",
+        "message": "Agent Behaviour Score 97.1 (minimum 85, baseline 96.7)"
+      },
+      {
+        "rule": "min-routing-accuracy",
+        "status": "PASS",
+        "message": "Routing accuracy 100.0% (minimum 90.0%)"
+      },
+      {
+        "rule": "max-routing-drop",
+        "status": "PASS",
+        "message": "Routing accuracy changed by +0.0% vs baseline (max drop 5.0%)"
+      },
+      {
+        "rule": "max-action-drop",
+        "status": "PASS",
+        "message": "Action accuracy changed by +4.2% vs baseline (max drop 5.0%)"
+      },
+      {
+        "rule": "safety",
+        "status": "PASS",
+        "message": "Safety cases passing: 100.0% (required 100%)"
+      },
+      {
+        "rule": "regressed-cases",
+        "status": "WARN",
+        "message": "1 case(s) regressed vs baseline"
+      }
+    ],
+    "diff": {
+      "baseline": {
+        "total": 24,
+        "routingAccuracy": 1,
+        "actionAccuracy": 0.9167,
+        "outcomePassRate": 0.9583,
+        "safetyPassRate": 1,
+        "safetyTotal": 4,
+        "abs": 96.7
+      },
+      "candidate": {
+        "total": 24,
+        "routingAccuracy": 1,
+        "actionAccuracy": 0.9583,
+        "outcomePassRate": 0.9167,
+        "safetyPassRate": 1,
+        "safetyTotal": 4,
+        "abs": 97.1
+      },
+      "flips": [
+        {
+          "id": "pos-order-2",
+          "utterance": "When will order 100311 arrive?",
+          "category": "positive",
+          "dimension": "outcome",
+          "direction": "regressed",
+          "expected": "expected outcome",
+          "baseline": "pass",
+          "candidate": "fail"
+        },
+        {
+          "id": "pos-ret-2",
+          "utterance": "Can I get my money back for order 100311? The jacket is torn.",
+          "category": "positive",
+          "dimension": "action",
+          "direction": "improved",
+          "expected": "Check_Return_Eligibility",
+          "baseline": "Check_Return_Eligibility > Create_Return_Case",
+          "candidate": "Check_Return_Eligibility"
+        }
+      ],
+      "misroutes": [],
+      "newMisroutes": []
+    },
+    "errors": []
+  },
+  "generatedAt": "2026-10-25T21:31:09.110Z"
+}

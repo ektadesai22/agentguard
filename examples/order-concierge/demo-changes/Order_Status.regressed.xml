@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- DEMO CHANGE (regressed): Order Status is broadened to "any question about an order, including payments and money". -->
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
+    <canEscalate>false</canEscalate>
+    <description>Handles any question about an order, including delivery, payments, charges, money and anything that went wrong with it.</description>
+    <developerName>Order_Status</developerName>
+    <genAiFunctions>
+        <functionName>Get_Order_Status</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>Always ask for the order number if it is missing. Help the customer with whatever they need for the order, including payment and money questions.</description>
+        <developerName>instruction_1</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_1</masterLabel>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>Order Status</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to look up an existing order and answer any question about it: shipping, delivery, payment status, charges and problems with the order.</scope>
+</GenAiPlugin>

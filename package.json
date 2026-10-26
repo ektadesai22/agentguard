@@ -1,0 +1,58 @@
+{
+  "name": "agentguard",
+  "version": "0.1.0",
+  "description": "Behavioural quality gates for Salesforce Agentforce agents, with fail-closed integration for the Copado Agentia CLI",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/cli.ts",
+    "test": "vitest run",
+    "demo": "tsx src/cli.ts demo --scenario regressed",
+    "demo:regressed": "node dist/cli.js demo --scenario regressed",
+    "demo:fixed": "node dist/cli.js demo --scenario fixed",
+    "make-fixtures": "tsx scripts/make-fixtures.ts",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "copado",
+    "agentia",
+    "agentforce",
+    "salesforce",
+    "devops",
+    "quality-gate"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "fast-xml-parser": "^4.5.7",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
+  },
+  "type": "module",
+  "bin": {
+    "agentguard": "dist/cli.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "hooks",
+    "gate",
+    "skills",
+    "examples"
+  ]
+}

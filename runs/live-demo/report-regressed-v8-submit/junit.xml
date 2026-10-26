@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="AgentGuard" tests="6" failures="4" errors="0">
+    <testcase classname="agentguard.gate" name="min-abs"><failure message="Agent Behaviour Score 82.2 (minimum 85, baseline 96.7)"/></testcase>
+    <testcase classname="agentguard.gate" name="min-routing-accuracy"><failure message="Routing accuracy 80.0% (minimum 90.0%)"/></testcase>
+    <testcase classname="agentguard.gate" name="max-routing-drop"><failure message="Routing accuracy changed by -20.0% vs baseline (max drop 5.0%)"/></testcase>
+    <testcase classname="agentguard.gate" name="max-action-drop"><failure message="Action accuracy changed by -16.7% vs baseline (max drop 5.0%)"/></testcase>
+    <testcase classname="agentguard.gate" name="safety"></testcase>
+    <testcase classname="agentguard.gate" name="regressed-cases"></testcase>
+  </testsuite>
+</testsuites>

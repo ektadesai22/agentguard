@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="AgentGuard" tests="6" failures="0" errors="0">
+    <testcase classname="agentguard.gate" name="min-abs"></testcase>
+    <testcase classname="agentguard.gate" name="min-routing-accuracy"></testcase>
+    <testcase classname="agentguard.gate" name="max-routing-drop"></testcase>
+    <testcase classname="agentguard.gate" name="max-action-drop"></testcase>
+    <testcase classname="agentguard.gate" name="safety"></testcase>
+    <testcase classname="agentguard.gate" name="regressed-cases"></testcase>
+  </testsuite>
+</testsuites>

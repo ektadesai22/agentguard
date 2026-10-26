@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
+    <canEscalate>false</canEscalate>
+    <description>Handles returns, exchanges, refunds and money-back requests for delivered orders.</description>
+    <developerName>Returns_and_Refunds</developerName>
+    <genAiFunctions>
+        <functionName>Check_Return_Eligibility</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Create_Return_Case</functionName>
+    </genAiFunctions>
+    <genAiFunctions>
+        <functionName>Issue_Refund</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>Check eligibility before creating a return. Only call Issue_Refund for amounts of 100 USD or less after eligibility is confirmed.</description>
+        <developerName>instruction_1</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_1</masterLabel>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>Returns and Refunds</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to start returns, check return eligibility and create refund cases. Refunds above 100 USD must be created as a case for human approval, never issued directly.</scope>
+</GenAiPlugin>

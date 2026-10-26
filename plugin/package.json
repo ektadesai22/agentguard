@@ -1,0 +1,42 @@
+{
+  "name": "agentia-plugin-agentguard",
+  "version": "0.1.0",
+  "description": "Agentia CLI plugin: `agentia agentguard check` runs the AgentGuard behavioural gate for Agentforce agents",
+  "type": "module",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "agentia": {
+    "hostApi": 1,
+    "requires": [
+      "work.getWorkItem",
+      "format.table"
+    ]
+  },
+  "oclif": {
+    "commands": "./dist/commands",
+    "topicSeparator": " ",
+    "topics": {
+      "agentguard": {
+        "description": "Behavioural quality gate for Agentforce agents (exit 0 PASS/WARN, 2 BLOCK, 3 ERROR)"
+      }
+    }
+  },
+  "dependencies": {
+    "@copado/agentia-plugin-sdk": "REPLACE_WITH_VERSION_FROM_GENERATOR",
+    "@oclif/core": "REPLACE_WITH_VERSION_FROM_GENERATOR",
+    "agentguard": "file:.."
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

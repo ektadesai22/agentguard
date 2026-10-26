@@ -1,0 +1,31 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      # Offline demo = replay of SYNTHETIC fixtures (not a live org run). It proves the gate wiring:
+      # the regressed change must BLOCK (exit 2) and the fixed change must PASS (exit 0).
+      - name: Demo (regressed) must BLOCK with exit 2
+        run: |
+          set +e
+          node dist/cli.js demo --scenario regressed
+          code=$?
+          echo "exit code: $code"
+          test "$code" -eq 2
+      - name: Demo (fixed) must PASS with exit 0
+        run: node dist/cli.js demo --scenario fixed
+      - name: Upload demo reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentguard-demo-report
+          path: examples/order-concierge/.agentguard/report/

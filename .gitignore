@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.agentguard/
+.env
+.env.*
+runs/*.tmp
+*.log

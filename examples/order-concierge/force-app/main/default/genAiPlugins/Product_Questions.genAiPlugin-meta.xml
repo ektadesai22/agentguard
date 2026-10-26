@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPlugin xmlns="http://soap.sforce.com/2006/04/metadata">
+    <canEscalate>false</canEscalate>
+    <description>Answers questions about product features, sizing, compatibility and availability.</description>
+    <developerName>Product_Questions</developerName>
+    <genAiFunctions>
+        <functionName>Search_Knowledge</functionName>
+    </genAiFunctions>
+    <genAiPluginInstructions>
+        <description>Cite the knowledge article you used. If you are not sure, say so.</description>
+        <developerName>instruction_1</developerName>
+        <language>en_US</language>
+        <masterLabel>instruction_1</masterLabel>
+    </genAiPluginInstructions>
+    <language>en_US</language>
+    <masterLabel>Product Questions</masterLabel>
+    <pluginType>Topic</pluginType>
+    <scope>Your job is to answer product questions using knowledge articles. You do not look up orders.</scope>
+</GenAiPlugin>
