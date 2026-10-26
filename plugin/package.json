@@ -1,42 +1,68 @@
 {
-  "name": "agentia-plugin-agentguard",
+  "name": "agentguard-agentia-plugin",
+  "description": "Behavioural quality gate for Agentforce agents",
   "version": "0.1.0",
-  "description": "Agentia CLI plugin: `agentia agentguard check` runs the AgentGuard behavioural gate for Agentforce agents",
+  "author": "AgentGuard",
   "type": "module",
-  "license": "MIT",
   "main": "dist/index.js",
-  "files": [
-    "dist"
+  "types": "dist/index.d.ts",
+  "exports": "./dist/index.js",
+  "license": "MIT",
+  "keywords": [
+    "oclif-plugin",
+    "agentia"
   ],
-  "scripts": {
-    "build": "tsc -p tsconfig.json"
+  "files": [
+    "/dist",
+    "/oclif.manifest.json"
+  ],
+  "dependencies": {
+    "@copado/agentia-plugin-sdk": "^0.1.1",
+    "agentguard": "file:.."
+  },
+  "peerDependencies": {
+    "@oclif/core": "^4"
+  },
+  "devDependencies": {
+    "@oclif/core": "^4",
+    "@types/node": "^22",
+    "oclif": "^4",
+    "shx": "^0.3.3",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   },
   "agentia": {
     "hostApi": 1,
     "requires": [
-      "work.getWorkItem",
-      "format.table"
-    ]
+      "format.table",
+      "work.getWorkItem"
+    ],
+    "permissions": {
+      "network": [],
+      "files": "none",
+      "commands": [
+        "sf",
+        "git"
+      ],
+      "env": []
+    }
   },
   "oclif": {
+    "bin": "agentia",
+    "dirname": "agentia-cli",
     "commands": "./dist/commands",
-    "topicSeparator": " ",
     "topics": {
       "agentguard": {
-        "description": "Behavioural quality gate for Agentforce agents (exit 0 PASS/WARN, 2 BLOCK, 3 ERROR)"
+        "description": "AgentGuard behavioural quality gates for Agentforce agents"
       }
     }
   },
-  "dependencies": {
-    "@copado/agentia-plugin-sdk": "REPLACE_WITH_VERSION_FROM_GENERATOR",
-    "@oclif/core": "REPLACE_WITH_VERSION_FROM_GENERATOR",
-    "agentguard": "file:.."
-  },
-  "devDependencies": {
-    "@types/node": "^22.20.4",
-    "typescript": "^5.9.3"
-  },
-  "engines": {
-    "node": ">=20"
+  "scripts": {
+    "build": "shx rm -rf dist && tsc -b",
+    "clean": "shx rm -f oclif.manifest.json",
+    "prepack": "npm run build && oclif manifest",
+    "postpack": "npm run clean"
   }
 }

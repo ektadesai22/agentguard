@@ -226,6 +226,12 @@ the repo root). The demo agent's two Agent Script versions are in `examples/orde
 | Agentia step stopped on BLOCK | `agentia cicd work test` → "Local quality gates failed (exit 2)"; `work submit` refused. After the fix, submit went through |
 | Run duration per suite | ~1 minute per 24-case live run |
 
+## Third-party components
+
+Runtime: `commander`, `yaml`, `fast-xml-parser` (MIT). Dev/test: `typescript` (Apache-2.0), `tsx`, `vitest` (MIT).
+Plugin: `@copado/agentia-plugin-sdk` (Copado licence), `@oclif/core`, `oclif` (MIT). External tools invoked:
+Salesforce CLI (`sf agent test`), Copado Agentia CLI, git. See each `package.json` / `package-lock.json`.
+
 ## Roadmap
 
 - MCP server exposing AgentGuard checks to coding agents

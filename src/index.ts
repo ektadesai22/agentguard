@@ -5,7 +5,7 @@ export { buildImpact, gitChangedFiles, loadTopics, classifyPath, parseNameStatus
 export { evaluateGate, exitCodeFor, coverageErrors } from "./gate.js";
 export { check } from "./pipeline.js";
 export type { CheckOptions, CheckOutput } from "./pipeline.js";
-export { SfRunner, ReplayRunner } from "./runner.js";
+export { SfRunner, ReplayRunner, RecordedBaselineRunner } from "./runner.js";
 export type { Runner, RunOutput } from "./runner.js";
 export { joinResults, normaliseResults, safetyVerdict, findLeaks } from "./results.js";
 export { loadSuite, validateSuite, toSalesforceSpec } from "./suite.js";
