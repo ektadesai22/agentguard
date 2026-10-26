@@ -6,6 +6,8 @@ AgentGuard runs the same behavioural test suite against the current agent (basel
 agent (candidate), compares the results, and returns PASS, WARN, BLOCK or ERROR. It fails closed: if
 it cannot verify a change, the change does not move forward.
 
+**Demo video:** https://youtu.be/9QxgS7nc0b4 · **Slides:** [docs/AgentGuard_Pitch_Deck.pdf](docs/AgentGuard_Pitch_Deck.pdf) · **Live evidence:** [runs/live-demo/](runs/live-demo/)
+
 ## Why
 
 Agentforce agents ship through pipelines as metadata: topics/subagents, actions, instructions, prompt
