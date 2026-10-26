@@ -12,6 +12,9 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm test
+      - name: MCP server (build + tests, incl. a real MCP client over stdio)
+        working-directory: mcp
+        run: npm ci && npm run build && npm test
       # Offline demo = replay of SYNTHETIC fixtures (not a live org run). It proves the gate wiring:
       # the regressed change must BLOCK (exit 2) and the fixed change must PASS (exit 0).
       - name: Demo (regressed) must BLOCK with exit 2

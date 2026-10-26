@@ -175,33 +175,33 @@ Any failing safety case blocks, whatever the score.
 
 ## Integration with Copado Agentia
 
-AgentGuard does not call Copado APIs and does not promote, approve or attach anything. It integrates
-through three entry points that all stop on a nonzero exit code:
+AgentGuard does not call Copado APIs and does not promote, approve or attach anything. It plugs into
+Agentia's extension points, and every entry point stops on a nonzero exit code:
 
 1. **Agentia CLI plugin** ([`plugin/`](plugin/README.md)): `agentia agentguard check` reads the active work
    item through the documented plugin host API, runs the gate, prints a table and returns the decision
-   as `--json`. The source is a scaffold to drop into a project generated with
-   `npm init @copado/agentia-plugin`; it is untested until linked with `agentia plugins link .`.
-2. **Agentia local quality gate** ([`gate/agentia-local-gate.sh`](gate/agentia-local-gate.sh), `.ps1` for
-   Windows): runs `agentguard check` (or `agentia agentguard check`) and exits nonzero on BLOCK or ERROR.
-   Copado's public docs do not yet describe how the local quality gate locates and runs a repo script,
-   so the exact registration must be confirmed on the machine with `agentia setup`.
-3. **git pre-push hook** ([`hooks/pre-push`](hooks/pre-push)): runs only when agent metadata changed,
+   as `--json`. Built with `npm init @copado/agentia-plugin` and linked with `agentia plugins link .`.
+2. **Agentia local quality gate** ([`gate/`](gate/)): `.agentia_quality_gates.cmd` / `.sh` in the repo root
+   (the file `agentia setup` creates) runs the gate, so `agentia cicd work test` fails and
+   `agentia cicd work submit` is refused on BLOCK or ERROR.
+3. **Agent Skill** ([`skills/agentguard/SKILL.md`](skills/agentguard/SKILL.md)): tells AI coding agents to run the
+   gate before submit, explain BLOCK/ERROR and propose a fix, and never to skip the gate, weaken the policy or delete cases.
+4. **MCP server** ([`mcp/`](mcp/README.md)): `agentguard_check`, `agentguard_report` and `agentguard_policy` as MCP
+   tools for Claude Code, Cursor or VS Code agent mode, next to Copado's own `agentia mcp start`. Agentia plugins
+   cannot register MCP tools yet, so this is a small separate server over the same core.
+5. **git pre-push hook** ([`hooks/pre-push`](hooks/pre-push)): runs only when agent metadata changed,
    uses the project's local binary, and refuses the push on BLOCK, ERROR, a missing base ref or a failed `git diff`.
 
 The gate result stops the Agentia workflow step; the report is kept as evidence in the repo
-(`.agentguard/report/`, `runs/`) or as CI artefacts. A coding-agent skill
-([`skills/agentguard/SKILL.md`](skills/agentguard/SKILL.md)) tells Claude Code / Cursor to run the gate,
-explain BLOCK/ERROR and propose a fix, and never to weaken the policy or delete cases.
+(`.agentguard/report/`, `runs/`) or as CI artefacts.
 
 ## Limitations
 
 - Safety results are **safety regression checks for the tested scenarios**, not a general safety guarantee.
 - The leak check is a regex check. It can miss leaks phrased differently and can flag a refusal that
   quotes "my instructions"; tune `policy.safety.leakPatterns` for your agent.
-- The Agentforce Studio test runner (`--test-runner agentforce-studio`) is Beta. Spec and result field
-  names for the new builder are marked `VERIFY` in code and must be confirmed against a real run.
-- The local quality gate wiring must be verified per `agentia setup`; the plugin is untested until linked.
+- The Agentforce Studio test runner (`--test-runner agentforce-studio`) is Beta; its result format can change.
+- The demo uses one org: the baseline is a recorded run of the unchanged agent (`--replay-baseline`).
 - Topics are read from `genAiPlugins/` for impact analysis only; subagents inside Agent Script are not
   parsed (an Agent Script change triggers a full run, and the full suite always runs).
 - Single-turn suites only. LLM judges can be non-deterministic: run the baseline several times to
@@ -232,12 +232,14 @@ the repo root). The demo agent's two Agent Script versions are in `examples/orde
 ## Third-party components
 
 Runtime: `commander`, `yaml`, `fast-xml-parser` (MIT). Dev/test: `typescript` (Apache-2.0), `tsx`, `vitest` (MIT).
-Plugin: `@copado/agentia-plugin-sdk` (Copado licence), `@oclif/core`, `oclif` (MIT). External tools invoked:
+Plugin: `@copado/agentia-plugin-sdk` (Copado licence), `@oclif/core`, `oclif` (MIT). MCP server:
+`@modelcontextprotocol/sdk`, `zod` (MIT). External tools invoked:
 Salesforce CLI (`sf agent test`), Copado Agentia CLI, git. See each `package.json` / `package-lock.json`.
 
 ## Roadmap
 
-- MCP server exposing AgentGuard checks to coding agents
+- Copado Robotic Testing checks of what each agent action really changes in the org
+- Repeat-run voting to smooth LLM-judge noise
 - Auto-fix proposals applied as a reviewed patch
 - Multi-turn suites (kept separate from single-turn suites)
 - LLM-assisted case generation with human review (code path exists, off by default)
@@ -246,7 +248,8 @@ Salesforce CLI (`sf agent test`), Copado Agentia CLI, git. See each `package.jso
 
 ```
 src/            core: cli, config, detect, generate, suite, runner, results, score, gate, explain, report, pipeline
-plugin/         Agentia CLI plugin scaffold (agentia agentguard check)
+plugin/         Agentia CLI plugin (agentia agentguard check)
+mcp/            MCP server for AI coding agents (agentguard_check, agentguard_report, agentguard_policy)
 gate/           Agentia local quality gate scripts (.sh, .ps1)
 hooks/pre-push  fail-closed git hook
 skills/         SKILL.md for AI coding agents

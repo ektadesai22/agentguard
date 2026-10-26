@@ -1,0 +1,15 @@
+{
+  "servers": {
+    "agentia": {
+      "type": "stdio",
+      "command": "cmd",
+      "args": ["/c", "agentia", "mcp", "start"]
+    },
+    "agentguard": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${workspaceFolder}/../agentguard/mcp/dist/server.js"],
+      "env": { "AGENTGUARD_PROJECT_DIR": "${workspaceFolder}" }
+    }
+  }
+}

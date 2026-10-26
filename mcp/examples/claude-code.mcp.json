@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "agentia": {
+      "command": "cmd",
+      "args": ["/c", "agentia", "mcp", "start"]
+    },
+    "agentguard": {
+      "command": "node",
+      "args": ["../agentguard/mcp/dist/server.js"]
+    }
+  }
+}

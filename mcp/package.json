@@ -1,0 +1,29 @@
+{
+  "name": "agentguard-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for AgentGuard: lets AI coding agents run the Agentforce behavioural quality gate",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "agentguard-mcp": "dist/server.js"
+  },
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.1",
+    "agentguard": "file:..",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.9"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
